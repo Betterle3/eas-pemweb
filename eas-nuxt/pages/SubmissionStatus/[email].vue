@@ -1,8 +1,17 @@
 <template>
-    <div>
-        This email: {{ accept.email }} status is {{ accept.status }}
+    <div class="center-container">
+      Status email {{ accept.email }} adalah {{ accept.status }}
     </div>
-</template>
+  </template>
+  
+  <style scoped>
+  .center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  </style>
 <script setup>
 const route = useRoute().params.email
 const { data: request } = await useFetch('http://localhost:5000/api/submissions');

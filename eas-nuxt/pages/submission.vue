@@ -1,54 +1,55 @@
 <template>
-    <div>
-        <form @submit.prevent="submitForm">
-            <div>
-                <label>Name</label>
-                <input v-model="formData.name" type="text" name="name" placeholder="Soic" required>
-            </div>
-            <div>
-                <label>Email</label>
-                <input v-model="formData.email" type="email" name="email" placeholder="soic@soic.com" required>
-            </div>
-            <div>
-                <label>Phone Number</label>
-                <input v-model="formData.phone" type="text" name="phone" placeholder="+62 1896750874" required>
-            </div>
-            <div>
-                <label>School</label>
-                <input v-model="formData.school" type="text" name="school" placeholder="SMAN 2 Kota Tangerang Selatan" required>
-            </div>
-            <button type="submit">Register</button>
-        </form>
-        <div v-if="isFormSubmitted">
-            <h1>Register Success</h1>
-        </div>
+  <div class="form-container">
+    <form @submit.prevent="submitForm" class="submission-form">
+      <div>
+        <label>Name</label>
+        <input v-model="formData.name" type="text" name="name" placeholder="Nama" required>
+      </div>
+      <div>
+        <label>Email</label>
+        <input v-model="formData.email" type="email" name="email" placeholder="example@email.com" required>
+      </div>
+      <div>
+        <label>Phone Number</label>
+        <input v-model="formData.phone" type="text" name="phone" placeholder="081234566789" required>
+      </div>
+      <div>
+        <label>School</label>
+        <input v-model="formData.school" type="text" name="school" placeholder="Asal SMA" required>
+      </div>
+      <button type="submit" class="register-button">Submit</button>
+    </form>
+    <div v-if="isFormSubmitted" class="success-message">
+      <h1>Register Success</h1>
     </div>
+  </div>
 </template>
+
 <script setup>
 const formData = ref({
-    name: '',
-    email: '',
-    phone: '',
-    school: '',
+  name: '',
+  email: '',
+  phone: '',
+  school: '',
 });
 
 const isFormSubmitted = ref(false);
 
 const getCurrentDate = () => {
-    var currentDate = new Date();
+  var currentDate = new Date();
 
-    var day = currentDate.getDate();
-    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var month = monthNames[currentDate.getMonth()];
-    var year = currentDate.getFullYear();
+  var day = currentDate.getDate();
+  var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var month = monthNames[currentDate.getMonth()];
+  var year = currentDate.getFullYear();
 
-    var formattedDate = day + ' ' + month + ' ' + year;
+  var formattedDate = day + ' ' + month + ' ' + year;
 
-    return formattedDate
-}
+  return formattedDate;
+};
 
 const submitForm = async () => {
-    console.log(getCurrentDate());
+  console.log(getCurrentDate());
   try {
     const response = await fetch('http://localhost:5000/api/submissions', {
       method: 'POST',
@@ -61,7 +62,7 @@ const submitForm = async () => {
         email: formData.value.email,
         phone: formData.value.phone,
         school: formData.value.school,
-        date: getCurrentDate()
+        date: getCurrentDate(),
       }),
     });
 
@@ -83,3 +84,44 @@ const submitForm = async () => {
   }
 };
 </script>
+
+<style scoped>
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.submission-form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+.register-button {
+  background-color: green;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.success-message {
+  text-align: center;
+  margin-top: 20px;
+}
+</style>
